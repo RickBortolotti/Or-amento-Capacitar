@@ -1,0 +1,61 @@
+/* responsive.css
+ *
+ * Adapta o layout para telas estreitas (celular). No desktop nada muda:
+ * o editor fica a esquerda (392px) e a previa A4 a direita.
+ *
+ * No celular (<= 820px) o layout vira empilhado: formulario em cima
+ * ocupando toda a largura, e a previa A4 reduzida abaixo. Um botao fixo
+ * "GERAR PDF" aparece no rodape (criado via JS em mobile.js).
+ */
+
+@media (max-width: 820px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .app {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh;
+    padding-bottom: 80px; /* espaco para o botao flutuante */
+  }
+  .editor {
+    width: 100% !important;
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid #2a2c2e;
+  }
+  .editor-body {
+    flex: none !important;
+    overflow-y: visible !important;
+    padding: 18px 16px 22px !important;
+  }
+  /* Fonte de 16px evita zoom automatico do iOS ao focar inputs */
+  .editor input,
+  .editor textarea,
+  .editor select {
+    font-size: 16px !important;
+  }
+  .stage {
+    display: block !important;
+    flex: none !important;
+    overflow: hidden !important;
+    padding: 14px !important;
+  }
+  .page {
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.45) !important;
+  }
+  #m-fab {
+    display: block !important;
+  }
+}
+
+/* O botao flutuante so aparece no mobile */
+#m-fab { display: none; }
+
+/* Na impressao, remove o botao flutuante e reseta a escala */
+@media print {
+  #m-fab { display: none !important; }
+  .page { transform: none !important; margin: 0 !important; }
+  .app { padding-bottom: 0 !important; }
+}

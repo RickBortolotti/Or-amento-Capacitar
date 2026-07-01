@@ -8,5 +8,5 @@
     .app{display:block !important;height:auto !important}
     .editor{display:none !important}
     .stage{padding:0 !important;background:#fff !important;overflow:visible !important;display:block !important}
-    .page{box-shadow:none !important;margin:0 !important}
+    .page{box-shadow:none !important;margin:0 !important;transform:none !important}
   }

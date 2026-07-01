@@ -6,9 +6,14 @@
  * No celular (<= 820px) o layout vira empilhado: formulario em cima
  * ocupando toda a largura, e a previa A4 reduzida abaixo. Um botao fixo
  * "GERAR PDF" aparece no rodape (criado via JS em mobile.js).
+ *
+ * IMPORTANTE: todas as regras mobile abaixo sao restritas a
+ * "screen and (max-width: 820px)". Ao imprimir, o tipo de midia passa a
+ * ser "print", entao NENHUMA regra mobile se aplica — evitando que a
+ * previa saia cortada ou escalonada no PDF, inclusive no celular.
  */
 
-@media (max-width: 820px) {
+@media screen and (max-width: 820px) {
   html, body {
     max-width: 100%;
     overflow-x: hidden;
@@ -50,12 +55,43 @@
   }
 }
 
-/* O botao flutuante so aparece no mobile */
+/* O botao flutuante so aparece no mobile (via regra acima) */
 #m-fab { display: none; }
 
-/* Na impressao, remove o botao flutuante e reseta a escala */
+/* -------------------------------------------------------------------------
+   Impressao / geracao de PDF (vale para desktop E celular).
+   Forcamos o layout "cru" da folha A4: sem escala, sem overflow escondido,
+   sem coluna, sem paddings mobile. Isso garante o mesmo PDF em qualquer
+   dispositivo. As regras usam !important para vencer estilos inline
+   remanescentes (o mobile.js tambem zera o transform via JS, mas aqui
+   temos uma segunda camada de seguranca).
+   ------------------------------------------------------------------------- */
 @media print {
   #m-fab { display: none !important; }
-  .page { transform: none !important; margin: 0 !important; }
-  .app { padding-bottom: 0 !important; }
+
+  html, body {
+    overflow: visible !important;
+    max-width: none !important;
+    background: #fff !important;
+  }
+  .app {
+    display: block !important;
+    flex-direction: row !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .editor { display: none !important; }
+  .stage {
+    display: block !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  .page {
+    transform: none !important;
+    transform-origin: initial !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
 }
